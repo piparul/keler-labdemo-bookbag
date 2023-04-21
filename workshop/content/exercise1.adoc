@@ -31,7 +31,7 @@ oc project kepler-operator-system
 oc get pods
 
 ## Create Kepler Custom Resource
-kubectl apply -f config/samples/
+oc apply -k config/samples/
 
 ## Check if kepler-exporter is up and running
 oc get pods
@@ -41,7 +41,7 @@ oc get svc
 
 ## Check if kepler-exporter metrics are available
 
-oc port-forward svc/kepler-exporter 9107:9107
+oc port-forward svc/kepler-exporter 9103:9103
 
 ```
 
