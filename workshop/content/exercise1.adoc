@@ -1,82 +1,136 @@
 :guid: %guid%
 :user: %user%
+:ssh_command: %ssh_password%
+:bastion_public_hostname: %bastion_public_hostname%
+:bastion_ssh_user_name: %bastion_ssh_user_name%
+:bastion_ssh_password: %bastion_ssh_password%
+:openshift-console-url: %openshift_console_url%
+:openshift-api-url: %openshift_api_url%
+:openshift-cluster-ingress-domain: %openshift_cluster_ingress_domain%
+:openshift-kubeadmin-password : %openshift_kubeadmin_password%
 :markup-in-source: verbatim,attributes,quotes
 
-== Exercise 1
 
-# Introduction
+== Getting Started
 
-This lab gives a hands on experience on how to use Kepler to measure container energy consumption.
+=== Install the Kepler Operator and create a Kepler Custom Resource
 
-## About Kepler
-
-TO-DO
-
-## Getting Started
-
-1.  Installing the Kepler Operator and creating Kepler Custom Resource
-
-```bash
-
-## Clone the kepler-operator repository
+. Clone the kepler-operator repository
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 git clone https://github.com/sustainable-computing-io/kepler-operator.git
+----
 
-## Deploy the operator
+. Deploy the operator
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 cd kepler-operator
-
 make deploy IMG=quay.io/sustainable_computing_io/kepler-operator:latest
+----
 
+. Verify operator installation
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 oc project kepler-operator-system
-
 oc get pods
+----
++
+.Sample Output
+[source,bash,options="nowrap",subs="{markup-in-source}"]
+----
+NAME                                                  READY   STATUS    RESTARTS   AGE
+kepler-operator-controller-manager-7fc984ff77-42htd   2/2     Running   0          13m
+----
 
-## Create Kepler Custom Resource
+. Create Kepler Custom Resource
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 oc apply -k config/samples/
+----
 
-## Check if kepler-exporter is up and running
+. Validate installation of kepler-exporter custom resource
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 oc get pods
+----
++
+.Sample Output
+[source,bash,options="nowrap",subs="{markup-in-source}"]
+----
+NAME                                                  READY   STATUS              RESTARTS   AGE
+kepler-exporter-m52r8                                 0/1     ContainerCreating   0          11s
+kepler-model-server-5d5fcf64cc-t8vbq                  0/1     ContainerCreating   0          11s
+kepler-operator-controller-manager-7fc984ff77-42htd   2/2     Running             0          14m
+----
 
-## Check kepler-exporter service
+. Check kepler-exporter service
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 oc get svc
+----
++
+.Sample Output
+[source,bash,options="nowrap",subs="{markup-in-source}"]
+----
+NAME                                                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+kepler-exporter                                      ClusterIP   None           <none>        9103/TCP   12s
+kepler-model-server                                  ClusterIP   None           <none>        8100/TCP   11s
+kepler-operator-controller-manager-metrics-service   ClusterIP   172.30.79.87   <none>        8443/TCP   14m
+----
 
-## Check if kepler-exporter metrics are available
-
+. Check if kepler-exporter metrics are available
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 oc port-forward svc/kepler-exporter 9103:9103
+----
++
+.Sample Output
+[source,bash,options="nowrap",subs="{markup-in-source}"]
+----
+Forwarding from 127.0.0.1:9103 -> 9103
+Forwarding from [::1]:9103 -> 9103
+----
 
-```
+=== Install the Grafana Operator
 
-2. Installing the Grafana Operator
+. Copy the Bearer Token and update in the Grafana Datasource manifest.
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
+export BEARER_TOKEN=$(oc whoami --show-token)
 
-* Copy the Bearer Token and update in the Grafana Datasource manifest.
+envsubst < hack/dashboard/openshift/03-grafana-datasource-UPDATETHIS.yaml > GDS.yaml
 
+mv GDS.yaml hack/dashboard/openshift/03-grafana-datasource-UPDATETHIS.yaml
+----
 
-```bash
-oc whoami --show-token
-
-vi hack/dashboard/openshift/03-grafana-datasource-UPDATETHIS.yaml
-
-## Update bearer token to match your environment
-## httpHeaderValue1: 'Bearer ${BEARER_TOKEN}'
-## Replace ${BEARER_TOKEN} with the output from oc whoami --show-token
-## save and close the file using ESC + wq!
-```
-
-* Run the `hack/dashboard/openshift/deploy.sh` to set up Grafana.
-
-```bash
+. Run the `hack/dashboard/openshift/deploy.sh` to set up Grafana.
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 hack/dashboard/openshift/deploy-grafana.sh
-
-## Allow sometime for grafana installation
-
+----
++
+NOTE: Allow some time for grafana installation
++
+. Check that the Grafana pods are running
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
 oc get pods
+----
 
-```
+=== Access the Grafana Dashboard (For step 3 attach screenshots for each steps)
 
-3. Accessing the Grafana Dashboard (For step 3 attach screenshots for each steps)
-
-* Navigate to OpenShift Console/UI -> Networking -> Routes
-* Select `kepler-operator-system` namespace
-* Click on the grafana route
-* Grafana dashboard is opened in a new tab
-* Enter username as `kepler` and password as `kepler`
-
+.. Navigate to OpenShift Console/UI -> Networking -> Routes
+.. Select `kepler-operator-system` namespace
+.. Click on the grafana route
+.. Grafana dashboard is opened in a new tab
+.. Enter username as `kepler` and password as `kepler`
