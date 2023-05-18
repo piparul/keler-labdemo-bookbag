@@ -16,37 +16,16 @@ This lab gives a hands on experience on how to use Kepler to measure container e
 
 == Intro
 
-About Kepler
+Kepler
 
-TO-DO
+Kepler (Kubernetes-based Efficient Power Level Exporter) is a Prometheus exporter. It uses eBPF to probe CPU performance counters
+and Linux kernel tracepoints. These data and stats from cgroup and sysfs can then be fed into ML models to estimate energy consumption
+by Pods.
 
-== Command Line Access to Bastion Host
 
-To do this lab, it's preferable to use command line access to the OpenShift cluster.
-You've been provided a "bastion host" that preconfigured with everything you'll need to complete the lab.
-Complete the following steps to prepare for the lab.
+image::../images/kepler-arch.png
 
-. Access your lab environment as {user} with password "{ssh_password}" with the following command:
-+
-[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
-----
-ssh {bastion_ssh_user_name}@{bastion_public_hostname}
-----
+image::../images/Kepler_Archiecture_1.png
 
-. Accept the new secrets and enter the ssh password
-+
-[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
-----
-{bastion_ssh_password}
-----
 
-Your lab GUID is "{guid}".
 
-== OpenShift Console Access
-
-You'll also need to access the OpenShift Console in this lab.
-Log into the OpenShift Console with the following commands.
-
-. Access your {openshift-console-url}[OpenShift Console^].
-
-. Log in with username `kubeadmin` and password `{openshift-kubeadmin-password}`
