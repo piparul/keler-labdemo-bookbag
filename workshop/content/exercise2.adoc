@@ -1,14 +1,44 @@
 :guid: %guid%
 :user: %user%
+:ssh_command: %ssh_password%
+:bastion_public_hostname: %bastion_public_hostname%
+:bastion_ssh_user_name: %bastion_ssh_user_name%
+:bastion_ssh_password: %bastion_ssh_password%
+:openshift-console-url: %openshift_console_url%
+:openshift-api-url: %openshift_api_url%
+:openshift-cluster-ingress-domain: %openshift_cluster_ingress_domain%
+:openshift-kubeadmin-password : %openshift_kubeadmin_password%
 :markup-in-source: verbatim,attributes,quotes
 
 == Exercise 2
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Nam quam arcu, accumsan eget ligula sed, aliquet vehicula felis.
-Aliquam aliquam pellentesque fringilla.
-Nam porttitor, orci vel cursus ultrices, diam dolor maximus metus, eget elementum felis ante vitae ex.
-Mauris ligula eros, venenatis eu tincidunt eu, pulvinar vitae lectus.
-Aliquam facilisis lectus viverra vestibulum ornare.
-Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-Etiam accumsan efficitur sapien.
+=== Install the Grafana Operator
+
+. Copy the Bearer Token and update in the Grafana Datasource manifest.
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
+export BEARER_TOKEN=$(oc whoami --show-token)
+
+envsubst < hack/dashboard/openshift/03-grafana-datasource-UPDATETHIS.yaml > GDS.yaml
+
+mv GDS.yaml hack/dashboard/openshift/03-grafana-datasource-UPDATETHIS.yaml
+----
+
+. Run the `hack/dashboard/openshift/deploy.sh` to set up Grafana.
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
+hack/dashboard/openshift/deploy-grafana.sh
+----
++
+NOTE: Allow some time for grafana installation
++
+. Check that the Grafana pods are running
++
+[source,bash,options="nowrap",subs="{markup-in-source}",role=execute]
+----
+oc get pods
+----
+
+

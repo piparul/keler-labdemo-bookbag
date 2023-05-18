@@ -1,14 +1,21 @@
 :guid: %guid%
 :user: %user%
+:ssh_command: %ssh_password%
+:bastion_public_hostname: %bastion_public_hostname%
+:bastion_ssh_user_name: %bastion_ssh_user_name%
+:bastion_ssh_password: %bastion_ssh_password%
+:openshift-console-url: %openshift_console_url%
+:openshift-api-url: %openshift_api_url%
+:openshift-cluster-ingress-domain: %openshift_cluster_ingress_domain%
+:openshift-kubeadmin-password : %openshift_kubeadmin_password%
 :markup-in-source: verbatim,attributes,quotes
 
 == Exercise 3
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Nam quam arcu, accumsan eget ligula sed, aliquet vehicula felis.
-Aliquam aliquam pellentesque fringilla.
-Nam porttitor, orci vel cursus ultrices, diam dolor maximus metus, eget elementum felis ante vitae ex.
-Mauris ligula eros, venenatis eu tincidunt eu, pulvinar vitae lectus.
-Aliquam facilisis lectus viverra vestibulum ornare.
-Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-Etiam accumsan efficitur sapien.
+=== Access the Grafana Dashboard (For step 3 attach screenshots for each steps)
+
+.. Navigate to OpenShift Console/UI -> Networking -> Routes
+.. Select `kepler-operator-system` namespace
+.. Click on the grafana route
+.. Grafana dashboard is opened in a new tab
+.. Enter username as `kepler` and password as `kepler`

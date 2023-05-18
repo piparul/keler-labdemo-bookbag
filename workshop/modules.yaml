@@ -3,6 +3,9 @@ modules:
   overview:
     name: Overview
     exit_sign: Continue
+  info:
+    name: Info
+    exit_sign: Continue
   exercise1:
     name: Exercise 1
     exit_sign: Continue
