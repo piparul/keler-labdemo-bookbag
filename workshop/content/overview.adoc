@@ -23,9 +23,6 @@ and Linux kernel tracepoints. These data and stats from cgroup and sysfs can the
 by Pods.
 
 
-image::../images/kepler-arch.png
+image::images/kepler-arch.png
 
-image::../images/Kepler_Archiecture_1.png
-
-
-
+image::images/Kepler_Archiecture_1.png
